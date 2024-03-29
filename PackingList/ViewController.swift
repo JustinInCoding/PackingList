@@ -96,9 +96,11 @@ private extension ViewController {
 		menuHeightConstraint.constant = menuIsOpen ? 200 : 80
 		menuButtonTrailingConstriant.constant = menuIsOpen ? 16 : 8
 		
-		UIView.animate(withDuration: 1 / 3, 
+		UIView.animate(withDuration: 1,
 									 delay: 0,
-									 options: .curveEaseIn, 
+									 usingSpringWithDamping: 0.4,
+									 initialSpringVelocity: 10,
+									 options: [],
 									 animations: {
 			self.menuButton.transform = .init(rotationAngle: self.menuIsOpen ? .pi / 4 : 0)
 			self.view.layoutIfNeeded()
@@ -124,11 +126,15 @@ private extension ViewController {
 		
 		view.layoutIfNeeded()
 		
-		UIView.animate(withDuration: 0.8) {
+		UIView.animate(withDuration: 0.8,
+									 delay: 0,
+									 usingSpringWithDamping: 0.6,
+									 initialSpringVelocity: 10,
+									 animations: {
 			bottomConstraint.constant = imageView.frame.height * -2
 			widthConstraint.constant = 0
 			self.view.layoutIfNeeded()
-		}
+		})
 		
 		UIView.animate(withDuration: 2 / 3, delay: 2, animations: {
 			bottomConstraint.constant = imageView.frame.height
