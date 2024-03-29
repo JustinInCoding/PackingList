@@ -113,14 +113,24 @@ private extension ViewController {
     imageView.layer.cornerRadius = 5
     imageView.layer.masksToBounds = true
     imageView.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(imageView)
+//    view.addSubview(imageView)
 		
-		let bottomConstraint = imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: imageView.frame.height)
-		let widthConstraint = imageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1 / 3, constant: -50)
+		let containerView = UIView(frame: imageView.frame)
+		view.addSubview(containerView)
+		containerView.addSubview(imageView)
+		containerView.translatesAutoresizingMaskIntoConstraints = false
+		
+		let bottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: containerView.frame.height)
+		let widthConstraint = containerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1 / 3, constant: -50)
 		NSLayoutConstraint.activate([
 			bottomConstraint,
 			widthConstraint,
-			imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			containerView.heightAnchor.constraint(equalTo: containerView.widthAnchor),
+			
+			imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+			imageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+			imageView.widthAnchor.constraint(equalTo: containerView.widthAnchor),
 			imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
 		])
 		
@@ -136,13 +146,21 @@ private extension ViewController {
 			self.view.layoutIfNeeded()
 		})
 		
-		UIView.animate(withDuration: 2 / 3, delay: 2, animations: {
-			bottomConstraint.constant = imageView.frame.height
-			widthConstraint.constant = -50
-			self.view.layoutIfNeeded()
-		}, completion: { _ in
-			imageView.removeFromSuperview()
-		})
+		delay(seconds: 1) {
+			UIView.transition(with: containerView,
+												duration: 1,
+												options: .transitionFlipFromBottom,
+												animations: imageView.removeFromSuperview,
+												completion: { _ in containerView.removeFromSuperview() })
+		}
+		
+//		UIView.animate(withDuration: 2 / 3, delay: 2, animations: {
+//			bottomConstraint.constant = imageView.frame.height
+//			widthConstraint.constant = -50
+//			self.view.layoutIfNeeded()
+//		}, completion: { _ in
+//			imageView.removeFromSuperview()
+//		})
   }
 
   func transitionCloseMenu() {
