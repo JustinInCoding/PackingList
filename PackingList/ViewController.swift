@@ -71,6 +71,21 @@ private extension ViewController {
 		
 		titleLabel.text = menuIsOpen ? "Select Item!" : "Packing List"
 		view.layoutIfNeeded()
+		
+		let constraints = titleLabel.superview!.constraints
+		constraints.first(where: { $0.firstItem === titleLabel && $0.firstAttribute == .centerX })?.constant = menuIsOpen ? -100 : 0
+		constraints.first(where: { $0.identifier == "Title Center Y" })!.isActive = false
+		let constraint = NSLayoutConstraint(item: titleLabel!,
+																				attribute: .centerY,
+																				relatedBy: .equal,
+																				toItem: titleLabel.superview,
+																				attribute: .centerY,
+																				multiplier: menuIsOpen ? 2 / 3 : 1,
+																				constant: 0)
+		constraint.identifier = "Title Center Y"
+		constraint.priority = .defaultHigh
+		constraint.isActive = true
+		
 		menuHeightConstraint.constant = menuIsOpen ? 200 : 80
 		menuButtonTrailingConstriant.constant = menuIsOpen ? 16 : 8
 		
