@@ -90,6 +90,23 @@ private extension ViewController {
     imageView.layer.masksToBounds = true
     imageView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(imageView)
+		
+		let bottomConstraint = imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: imageView.frame.height)
+		let widthConstraint = imageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1 / 3, constant: -50)
+		NSLayoutConstraint.activate([
+			bottomConstraint,
+			widthConstraint,
+			imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+		])
+		
+		view.layoutIfNeeded()
+		
+		UIView.animate(withDuration: 0.8) {
+			bottomConstraint.constant = imageView.frame.height * -2
+			widthConstraint.constant = 0
+			self.view.layoutIfNeeded()
+		}
   }
 
   func transitionCloseMenu() {
