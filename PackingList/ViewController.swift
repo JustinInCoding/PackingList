@@ -100,7 +100,7 @@ private extension ViewController {
 									 delay: 0,
 									 usingSpringWithDamping: 0.4,
 									 initialSpringVelocity: 10,
-									 options: [],
+									 options: .allowUserInteraction,
 									 animations: {
 			self.menuButton.transform = .init(rotationAngle: self.menuIsOpen ? .pi / 4 : 0)
 			self.view.layoutIfNeeded()
@@ -165,6 +165,14 @@ private extension ViewController {
 
   func transitionCloseMenu() {
     delay(seconds: 0.35, execute: toggleMenu)
+		
+		let titleBar = slider.superview!
+		UIView.transition(with: titleBar,
+											duration: 0.5,
+											options: .transitionFlipFromBottom,
+											animations: { self.slider.isHidden = true },
+											completion: { _ in self.slider.isHidden = false }
+		)
   }
 }
 
