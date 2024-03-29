@@ -43,6 +43,7 @@ final class ViewController: UIViewController {
   @IBOutlet private var titleLabel: UILabel!
 	
 	@IBOutlet private var menuHeightConstraint: NSLayoutConstraint!
+	@IBOutlet private var menuButtonTrailingConstriant: NSLayoutConstraint!
 
   //MARK:- Variables
   
@@ -71,11 +72,13 @@ private extension ViewController {
 		titleLabel.text = menuIsOpen ? "Select Item!" : "Packing List"
 		view.layoutIfNeeded()
 		menuHeightConstraint.constant = menuIsOpen ? 200 : 80
+		menuButtonTrailingConstriant.constant = menuIsOpen ? 16 : 8
 		
 		UIView.animate(withDuration: 1 / 3, 
 									 delay: 0,
 									 options: .curveEaseIn, 
 									 animations: {
+			self.menuButton.transform = .init(rotationAngle: self.menuIsOpen ? .pi / 4 : 0)
 			self.view.layoutIfNeeded()
 		})
   }
